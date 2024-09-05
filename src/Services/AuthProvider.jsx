@@ -30,7 +30,7 @@ function AuthProvider({ children }) {
     user,
     loading,
     signup,
-    logout,
+    logout
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
