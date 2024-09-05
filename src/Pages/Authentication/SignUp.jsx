@@ -2,14 +2,26 @@ import { useForm } from "react-hook-form";
 import loginImg from "../../assets/login.png";
 import { Link } from "react-router-dom";
 import { TextField } from "@mui/material";
-
 import { FaApple } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { useContext } from "react";
+import { AuthContext } from "../../Services/AuthProvider";
 
 function SignUp() {
   const { register, handleSubmit } = useForm();
+  const { signup } = useContext(AuthContext);
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    const { firstName, lastName, email, password } = data;
+    console.log(firstName, lastName, email, password);
+    const userInfo = {
+      firstName,
+      lastName,
+      email,
+      password,
+    };
+    signup(userInfo);
+  };
   return (
     <div className="">
       <div className="">
@@ -101,10 +113,10 @@ function SignUp() {
                         // onClick={hangleGoogleSignIn}
                         className="btn flex-1   text-base border border-gray-300 bg-[#FAFAFA] h-16 "
                       >
-                    <FcGoogle className="text-2xl"/>  Sign in with Google
+                        <FcGoogle className="text-2xl" /> Sign in with Google
                       </button>
                       <button className="btn flex-1 text-base border border-gray-300 bg-[#FAFAFA] h-16 ">
-                      <FaApple className="text-2xl" />   Sign in with Apple
+                        <FaApple className="text-2xl" /> Sign in with Apple
                       </button>
                     </div>
                   </div>
