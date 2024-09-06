@@ -1,17 +1,19 @@
 import { useForm } from "react-hook-form";
 import loginImg from "../../assets/login.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { FaApple } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useContext } from "react";
 import { AuthContext } from "../../Services/AuthProvider";
+import axios from "axios";
 
 function SignUp() {
   const { register, handleSubmit } = useForm();
   const { signup } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const { firstName, lastName, email, password } = data;
     console.log(firstName, lastName, email, password);
     const userInfo = {
@@ -21,6 +23,17 @@ function SignUp() {
       password,
     };
     signup(userInfo);
+    await axios
+      .post(`${import.meta.env.VITE_LOCALHOST_URL}/user`, userInfo)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <div className="">
